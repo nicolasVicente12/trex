@@ -45,6 +45,7 @@ function criaObstaculos() {
   if(frameCount%60===0){
  obstaculo=createSprite(600,172,10,50)
          obstaculo.velocityX=-(6+pontos/100)
+         obstaculo.scale=0.7;
     grupodeobstaculos.add(obstaculo)
 var numero=   Math.round(random(1, 6));  
     switch(numero){
@@ -92,7 +93,7 @@ function setup(){
   
   trex = createSprite(50, 150, 20, 50);
   trex.addAnimation("correndo", trexCorrendo);
-  trex.scale = 0.7; 
+  trex.scale = 0.9; 
   trex.setCollider('circle',0,0,40)
 
   solo= createSprite(300,185,600,30)
@@ -113,7 +114,6 @@ function setup(){
   restarte.addImage(restarteImagem)
   restarte.visible=false
 }
-
 function draw(){
   background("white");
   
@@ -126,11 +126,10 @@ function draw(){
      if(solo.x<0){
     solo.x=solo.width /2;
   }
-   if (keyDown("space") && trex.y>90 ) {
-    trex.velocityY = -10;
+   if (keyDown("space") && trex.y>70 ) {
+    trex.velocityY = -12;
      pulo.play()
-  }
- 
+    }
   criaNuvens();
   criaObstaculos(); 
     if(grupodeobstaculos.isTouching(trex)){
