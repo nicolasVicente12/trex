@@ -14,6 +14,7 @@ var grupodeobstaculos,grupodenuvens;
 var restarte,gameOver
 var restarteImagem
 var gameOverImagem
+var larguraTela=window.innerWidth
 
 function reiniciar(){
   pontos=0
@@ -29,7 +30,7 @@ function reiniciar(){
 function criaNuvens() {
  
   if(frameCount%60===0){
- nuvem=createSprite(600,50,40,10)
+ nuvem=createSprite(larguraTela,50,40,10)
          nuvem.velocityX=-3
 nuvem.addImage(nuvemImagem)
  nuvem.y=   Math.round(random(10, 50));
@@ -43,7 +44,7 @@ nuvem.addImage(nuvemImagem)
 function criaObstaculos() {
  
   if(frameCount%60===0){
- obstaculo=createSprite(600,172,10,50)
+ obstaculo=createSprite(larguraTela,172,10,50)
          obstaculo.velocityX=-(6+pontos/100)
          obstaculo.scale=0.7;
     grupodeobstaculos.add(obstaculo)
@@ -89,14 +90,14 @@ function preload() {
 }
 
 function setup(){
-  createCanvas(600,200)
+  createCanvas(larguraTela,200)
   
   trex = createSprite(50, 150, 20, 50);
   trex.addAnimation("correndo", trexCorrendo);
   trex.scale = 0.9; 
   trex.setCollider('circle',0,0,40)
 
-  solo= createSprite(300,185,600,30)
+  solo= createSprite(larguraTela/2,185,600,30)
   solo.addAnimation('solomovento',imagemsolo);
   
   soloInvisivel=createSprite(300,200,600,20);
@@ -107,10 +108,10 @@ function setup(){
   
   grupodeobstaculos=new Group()
   grupodenuvens=new Group()
-  gameOver=createSprite(300,90,20,20)
+  gameOver=createSprite(larguraTela/2,90,20,20)
   gameOver.addImage(gameOverImagem)
   gameOver.visible=false;
-  restarte=createSprite(300,120,20,20)
+  restarte=createSprite(larguraTela/2,120,20,20)
   restarte.addImage(restarteImagem)
   restarte.visible=false
 }
@@ -126,9 +127,10 @@ function draw(){
      if(solo.x<0){
     solo.x=solo.width /2;
   }
-   if (keyDown("space") && trex.y>70 ) {
+   if  ((keyDown("space")||touches.length>0) && trex.y>70 ) {
     trex.velocityY = -12;
      pulo.play()
+     touches=[]
     }
   criaNuvens();
   criaObstaculos(); 
@@ -149,8 +151,9 @@ function draw(){
 gameOver.visible=true
   restarte.visible=true
    
-   if (mousePressedOver(restarte)){
+   if (mousePressedOver(restarte) ||touches.length>0 ){
  reiniciar()      
+ touches=[]
        }
  }
   
